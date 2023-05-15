@@ -1,8 +1,8 @@
-package com.example.jwt.controller;
+package com.example.jwt.controller.jwt1;
 
-import com.example.jwt.DTO.TokenDataResponse;
-import com.example.jwt.DTO.TokenResponse;
-import com.example.jwt.DTO.TokenResponseNoData;
+import com.example.jwt.DTO.jwt1.TokenDataResponse;
+import com.example.jwt.DTO.jwt1.TokenResponse;
+import com.example.jwt.DTO.jwt1.TokenResponseNoData;
 import com.example.jwt.JwtProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
