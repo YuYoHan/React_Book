@@ -11,6 +11,8 @@ const Loading = <div>Loading...</div>;
 const Main = lazy(() => import("../pages/MainPage"));
 // eslint-disable-next-line react-refresh/only-export-components
 const About = lazy(() => import("../pages/AboutPage"));
+// eslint-disable-next-line react-refresh/only-export-components
+const TodoIndex = lazy(() => import("../pages/todo/IndexPage"));
 
 const root = createBrowserRouter([
   {
@@ -26,6 +28,14 @@ const root = createBrowserRouter([
     element: (
       <Suspense fallback={Loading}>
         <About />
+      </Suspense>
+    ),
+  },
+  {
+    path: "todo",
+    element: (
+      <Suspense fallback={Loading}>
+        <TodoIndex />
       </Suspense>
     ),
   },
