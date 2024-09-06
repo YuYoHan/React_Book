@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    group:
+      local:
+        - local
+    active: local
+  devtools:
+    livereload:
+      enabled: true
+    remote:
+      restart:
+        enabled: true
