@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 // Styled-component for the page text
 const PageText = styled.div`
@@ -7,6 +8,14 @@ const PageText = styled.div`
 `;
 
 const ModifyPage = ({ tno }) => {
+  const navigate = useNavigate();
+  const moveToRead = () => {
+    navigate({ pathname: `/todo/read/${tno}` });
+  };
+  const moveToList = () => {
+    navigate({ pathname: `/todo/list` });
+  };
+
   return <PageText>Todo Modify Page</PageText>;
 };
 
