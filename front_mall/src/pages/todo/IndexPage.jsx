@@ -1,6 +1,7 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import BasicLayout from "../../layouts/BasicLayout";
 import styled from "styled-components";
+import { useCallback } from "react";
 
 // 스타일 정의
 const Container = styled.div`
@@ -31,11 +32,20 @@ const Content = styled.div`
 `;
 
 const IndexPage = () => {
+  const navigate = useNavigate();
+  const handleClickList = useCallback(() => {
+    navigate({ pathname: "list" });
+  });
+
+  const handleClickAdd = useCallback(() => {
+    navigate("/todo/add"); // 절대 경로 사용
+  }, [navigate]);
+
   return (
     <BasicLayout>
       <Container>
-        <ListButton>LIST</ListButton>
-        <AddButton>ADD</AddButton>
+        <ListButton onClick={handleClickList}>LIST</ListButton>
+        <AddButton onClick={handleClickAdd}>ADD</AddButton>
         <Content>
           <Outlet />
         </Content>

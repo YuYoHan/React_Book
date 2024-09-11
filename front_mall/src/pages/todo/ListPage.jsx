@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -12,9 +13,14 @@ const Title = styled.div`
 `;
 
 const ListPage = () => {
+  const [queryParams] = useSearchParams();
+  const page = queryParams.get("page") ? parseInt(queryParams.get("page")) : 1;
+  const size = queryParams.get("size") ? parseInt(queryParams.get("size")) : 10;
   return (
     <Container>
-      <Title>Todo List Page Component</Title>
+      <Title>
+        Todo List Page Component {page} -- {size}
+      </Title>
     </Container>
   );
 };
