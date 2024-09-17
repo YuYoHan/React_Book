@@ -18,4 +18,15 @@ public class TodoServiceTest {
         TodoDTO todoDTO = todoService.get(tno);
         log.info(todoDTO);
     }
+
+    @Test
+    void testUpdate() {
+        TodoDTO todoDTO = todoService.get(2L);
+        todoService.update(todoDTO);
+    }
+
+    @Test
+    void testDelete() {
+        todoService.remove(2L);
+    }
 }
