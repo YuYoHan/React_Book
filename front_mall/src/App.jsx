@@ -1,17 +1,12 @@
-import styled from "styled-components";
-
-// Tailwind CSS 스타일을 `styled-components`로 변환
-const StyledHeading = styled.h1`
-    font-weight: bold; /* font-bold */
-    text-decoration: underline; /* underline */
-`;
+import root from "./router/root";
+import { RouterProvider } from "react-router-dom";
 
 function App() {
-    return (
-        <>
-            <StyledHeading>Hello</StyledHeading>
-        </>
-    );
+  return (
+    <>
+      <RouterProvider router={root} />
+    </>
+  );
 }
 
 export default App;
