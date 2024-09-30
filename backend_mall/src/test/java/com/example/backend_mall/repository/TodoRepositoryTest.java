@@ -74,4 +74,10 @@ public class TodoRepositoryTest {
                 .forEach(log::info);
     }
 
+    @Test
+    void testSearch1() {
+        todoRepository.search1();
+
+    }
+
 }
