@@ -17,6 +17,6 @@ public class TodoDTO {
     private boolean complete;
 
     // 2024-09-11 이런식으로 포맷이 구성됨
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-mm-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
 }

@@ -3,7 +3,7 @@ package com.example.backend_mall.repository;
 import com.example.backend_mall.entity.TodoEntity;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assert;
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,7 +26,8 @@ public class TodoRepositoryTest {
     @Test
     void test1() {
         log.info("-------------------");
-        log.info(todoRepository);
+        Assertions.assertNotNull(todoRepository);
+        log.info(todoRepository.getClass().getName());
     }
 
     @Test
@@ -55,6 +56,7 @@ public class TodoRepositoryTest {
         TodoEntity todo = todoRepository.findById(tno).orElseThrow();
         log.info(todo);
         todo.changeTitle("ModifiedTitle 33...");
+        todo.changeTitle("ModifiedTitle 33...");
         todo.changeCompleted(true);
         todoRepository.save(todo);
     }
@@ -67,6 +69,7 @@ public class TodoRepositoryTest {
 
     @Test
     void testPaging() {
+        // 기존의 new 에서 밑의 방법으로 변경됨
         Pageable pageable = PageRequest.of(0, 10, Sort.by("tno").descending());
         Page<TodoEntity> result = todoRepository.findAll(pageable);
         log.info(result.getTotalElements());
@@ -74,10 +77,10 @@ public class TodoRepositoryTest {
                 .forEach(log::info);
     }
 
-    @Test
-    void testSearch1() {
-        todoRepository.search1();
-
-    }
+//    @Test
+//    void testSearch1() {
+//        todoRepository.search1();
+//
+//    }
 
 }

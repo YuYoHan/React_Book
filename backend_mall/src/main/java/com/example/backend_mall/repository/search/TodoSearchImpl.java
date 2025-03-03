@@ -1,5 +1,6 @@
 package com.example.backend_mall.repository.search;
 
+import com.example.backend_mall.dto.PageRequestDTO;
 import com.example.backend_mall.entity.QTodoEntity;
 import com.example.backend_mall.entity.TodoEntity;
 import com.querydsl.jpa.JPQLQuery;
@@ -18,7 +19,7 @@ public class TodoSearchImpl extends QuerydslRepositorySupport implements TodoSea
     }
 
     @Override
-    public Page<TodoEntity> search1() {
+    public Page<TodoEntity> search1(PageRequestDTO page) {
         log.info("search1..........................");
         QTodoEntity todo = QTodoEntity.todoEntity;
         JPQLQuery<TodoEntity> query = from(todo);
