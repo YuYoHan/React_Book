@@ -2,11 +2,47 @@ spring:
   profiles:
     group:
       local:
-        - local
+        - oauth
     active: local
   devtools:
     livereload:
       enabled: true
-    remote:
-      restart:
-        enabled: true
+    restart:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    hikari:
+      maximum-pool-size: 40
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
+  thymeleaf:
+    enabled: true
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+
+  config:
+    import: application-oauth.yml
+
+jwt:
+  secretKey: dsaoiuxcjxzkjckxjcsakjksaeyhadkmcxnnbcmnvbcxnmvbcxnmvxuehfsdklfjdslk
+
+logging:
+  level:
+    org.hibernate.sql: debug
+server:
+  port: 8082

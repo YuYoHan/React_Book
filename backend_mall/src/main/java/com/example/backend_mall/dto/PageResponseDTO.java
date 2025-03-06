@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 @AllArgsConstructor
 @Builder
 @ToString
-public class PageResponseDTO {
+public class PageResponseDTO<E> {
     private List<?> dtoList;
     private PageRequestDTO pageRequestDTO;
     private List<Integer> pageNumList ;
