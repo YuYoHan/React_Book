@@ -14,7 +14,8 @@ const initState = {
 const ReadComponent = ({ tno }) => {
     const [todo, setTodo] = useState(initState);
 
-    const { moveToList } = useCustomMove();
+    // 이동과 관련된 기능은 모두 useCustomMove()로로
+    const { moveToList, moveToModify } = useCustomMove();
 
     useEffect(() => {
         getOne(tno).then((data) => {
@@ -41,6 +42,13 @@ const ReadComponent = ({ tno }) => {
                     List
                 </button>
             </div>
+            <button
+                type="button"
+                className="rounded p-4 m-2 text-xl w-32 text-white bg-blue-500"
+                onClick={() => moveToModify()}
+            >
+                Modify
+            </button>
         </div>
     );
 };
