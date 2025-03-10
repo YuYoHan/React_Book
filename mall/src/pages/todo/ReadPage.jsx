@@ -5,6 +5,7 @@ import {
     useParams,
     useSearchParams,
 } from "react-router-dom";
+import ReadComponent from "./ReadComponent";
 
 const ReadPage = () => {
     // useParams()를 이용해서 지정된 변수를 추출할 수 있다.
@@ -38,8 +39,7 @@ const ReadPage = () => {
                 Todo Read Page Component {tno}
             </div>
             <div>
-                <button onClick={() => moveToModify(tno)}>Test Modify</button>
-                <button onClick={() => moveToList()}>Test List</button>
+                <ReadComponent tno={tno}></ReadComponent>
             </div>
         </>
     );
