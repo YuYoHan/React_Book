@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { getList } from "../../api/todoApi";
 import useCustomMove from "../../hooks/useCustomMove";
+import PageComponent from "../components/common/PageComponent";
 
 const initState = {
     dtoList: [],
@@ -19,7 +20,7 @@ const initState = {
 };
 
 const ListComponent = () => {
-    const { page, size } = useCustomMove();
+    const { page, size, moveToList } = useCustomMove();
 
     const [serverData, setServerData] = useState(initState);
 
@@ -34,7 +35,7 @@ const ListComponent = () => {
         <>
             <div className="border-2 border-blue-100 mt-10 mr-2 ml-2">
                 <div className="flex flex-wrap mx-auto justify-center p-6">
-                    {serverData.dtoList.map((todo) => {
+                    {serverData.dtoList.map((todo) => (
                         <div
                             key={todo.tno}
                             className="w-full min-w-[400px] p-2 m-2 rounded shadow-md"
@@ -50,9 +51,14 @@ const ListComponent = () => {
                                     {todo.dueDate}
                                 </div>
                             </div>
-                        </div>;
-                    })}
+                        </div>
+                    ))}
                 </div>
+                {/* 페이징 처리(번호호) */}
+                <PageComponent
+                    serverData={serverData}
+                    movePage={moveToList}
+                ></PageComponent>
             </div>
         </>
     );
