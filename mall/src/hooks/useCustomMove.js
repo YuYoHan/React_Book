@@ -50,6 +50,17 @@ const useCustomMove = () => {
             search: queryDefault, // 수정시에 기존의 쿼리 스트링 유지를 위해
         });
     };
-    return { moveToList, moveToModify, page, size, refresh };
+
+    // 조회페이지 이동
+    const moveToRead = (num) => {
+        console.log(queryDefault);
+
+        navigate({
+            pathname: `../read/${num}`,
+            search: queryDefault,
+        });
+    };
+
+    return { moveToList, moveToModify, moveToRead, page, size, refresh };
 };
 export default useCustomMove;
