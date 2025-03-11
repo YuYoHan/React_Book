@@ -20,7 +20,7 @@ const initState = {
 };
 
 const ListComponent = () => {
-    const { page, size, moveToList } = useCustomMove();
+    const { page, size, refresh, moveToList } = useCustomMove();
 
     const [serverData, setServerData] = useState(initState);
 
@@ -29,7 +29,9 @@ const ListComponent = () => {
             console.log(data);
             setServerData(data);
         });
-    }, [page, size]);
+        // refresh는 동일한 페이지 번호를 클릭했을 때 true/false를 통해
+        // 다시 호출시켜줍니다.
+    }, [page, size, refresh]);
 
     return (
         <>

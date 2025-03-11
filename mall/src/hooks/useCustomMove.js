@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
     createSearchParams,
     useNavigate,
@@ -13,6 +14,7 @@ const getNum = (param, defaultValue) => {
 
 const useCustomMove = () => {
     const navigate = useNavigate();
+    const [refresh, setRefresh] = useState(false);
     const [queryParams] = useSearchParams();
 
     const page = getNum(queryParams.get("page", 1));
@@ -34,8 +36,9 @@ const useCustomMove = () => {
             }).toString();
         } else {
             queryStr = queryDefault;
+            console.log(queryStr);
         }
-        navigate({ pathname: `../list`, search: queryStr });
+        setRefresh(!refresh);
     };
 
     // 수정 페이지로 이동
@@ -47,6 +50,6 @@ const useCustomMove = () => {
             search: queryDefault, // 수정시에 기존의 쿼리 스트링 유지를 위해
         });
     };
-    return { moveToList, moveToModify, page, size };
+    return { moveToList, moveToModify, page, size, refresh };
 };
 export default useCustomMove;
