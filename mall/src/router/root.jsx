@@ -6,7 +6,6 @@ const Loading = <div>Loading....</div>;
 const Main = lazy(() => import("../pages/MainPage"));
 const About = lazy(() => import("../pages/AboutPage"));
 const TodoIndex = lazy(() => import("../pages/todo/Index"));
-const TodoList = lazy(() => import("../pages/todo/ListPage"));
 
 // createBrowserRouter를 사용해 BrowserRouter를 생성
 
