@@ -6,7 +6,6 @@ spring:
   profiles:
     group:
       local:
-        - oauth
     active: local
   devtools:
     livereload:
@@ -38,9 +37,6 @@ spring:
     encoding: UTF-8
     servlet:
       content-type: text/html
-
-  config:
-    import: application-oauth.yml
 
 jwt:
   secretKey: dsaoiuxcjxzkjckxjcsakjksaeyhadkmcxnnbcmnvbcxnmvbcxnmvxuehfsdklfjdslk
