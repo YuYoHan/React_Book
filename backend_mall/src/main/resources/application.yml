@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-request-size: 30MB
+      max-file-size: 10MB
   profiles:
     group:
       local:
@@ -46,3 +50,9 @@ logging:
     org.hibernate.sql: debug
 server:
   port: 8082
+
+# 코드 내에서 변수로 사용하기 위해서
+org:
+  zerock:
+    upload:
+      path: upload
