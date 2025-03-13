@@ -5,7 +5,7 @@ const Loading = <div>Loading.....</div>;
 const TodoList = lazy(() => import("../components/todo/ListPage"));
 const TodoRead = lazy(() => import("../components/todo/ReadPage"));
 const TodoAdd = lazy(() => import("../components/todo/AddPage"));
-const TodoModify = lazy(() => import("../components/todo/ModifyPage"));
+const TodoModify = lazy(() => import("../pages/todo/ModifyPage"));
 
 const todoRouter = () => {
     return [
