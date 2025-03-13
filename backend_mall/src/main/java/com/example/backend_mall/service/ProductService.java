@@ -6,4 +6,5 @@ import com.example.backend_mall.dto.ProductDTO;
 
 public interface ProductService {
     PageResponseDTO<ProductDTO> getList(PageRequestDTO pageRequestDTO);
+    Long register(ProductDTO productDTO);
 }

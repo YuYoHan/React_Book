@@ -24,13 +24,14 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("/")
-    public Map<String, String> register(ProductDTO productDTO) {
+    public Map<String, Long> register(ProductDTO productDTO) {
         log.debug("register {}", productDTO);
 
         List<MultipartFile> files = productDTO.getFiles();
         List<String> uploadFileNames = fileUtil.saveFiles(files);
         productDTO.getUploadFileNames().addAll(uploadFileNames);
-        return Map.of("result", "SUCCESS");
+        Long pno = productService.register(productDTO);
+        return Map.of("result", pno);
     }
 
     @GetMapping("/view/{fileName}")
@@ -42,4 +43,5 @@ public class ProductController {
     public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO) {
         return productService.getList(pageRequestDTO);
     }
+
 }
