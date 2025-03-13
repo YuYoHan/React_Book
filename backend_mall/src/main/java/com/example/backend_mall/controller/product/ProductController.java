@@ -44,4 +44,9 @@ public class ProductController {
         return productService.getList(pageRequestDTO);
     }
 
+    @GetMapping("/{pno}")
+    public ProductDTO read(@PathVariable("pno") Long pno) {
+        return productService.get(pno);
+    }
+
 }

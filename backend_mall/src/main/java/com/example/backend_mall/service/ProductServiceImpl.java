@@ -82,4 +82,31 @@ public class ProductServiceImpl implements ProductService{
         uploadFileNames.forEach(product::addImageString);
         return product;
     }
+
+    @Override
+    public ProductDTO get(Long pno) {
+        ProductEntity result = productRepository.selectOne(pno).orElseThrow();
+        ProductDTO productDTO = entityToDTO(result);
+        return productDTO;
+    }
+
+    private ProductDTO entityToDTO(ProductEntity product) {
+        ProductDTO productDTO = ProductDTO.builder()
+                .pno(product.getPno())
+                .pName(product.getPName())
+                .pDesc(product.getPDesc())
+                .price(product.getPrice())
+                .build();
+        List<ProductImageEntity> imageList = product.getImageList();
+
+        if(imageList == null || imageList.size() == 0) {
+            return productDTO;
+        }
+
+        List<String> fileNameList = imageList.stream().map(productImage ->
+                productImage.getFileName()).toList();
+        productDTO.getUploadFileNames().addAll(fileNameList);
+
+        return productDTO;
+    }
 }
