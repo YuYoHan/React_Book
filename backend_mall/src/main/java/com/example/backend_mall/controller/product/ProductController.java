@@ -82,4 +82,13 @@ public class ProductController {
         }
         return Map.of("result", "SUCCESS");
     }
+
+    @DeleteMapping("/{pno}")
+    public Map<String, String> remove(@PathVariable("pno") Long pno) {
+        // 삭제해야할 파일들 알아내기
+        List<String> oldFileNames = productService.get(pno).getUploadFileNames();
+        productService.remove(pno);
+        fileUtil.deleteFiles(oldFileNames);
+        return Map.of("result", "SUCCESS");
+    }
 }
