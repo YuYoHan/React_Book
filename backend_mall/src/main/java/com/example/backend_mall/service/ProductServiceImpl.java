@@ -109,4 +109,17 @@ public class ProductServiceImpl implements ProductService{
 
         return productDTO;
     }
+
+    @Override
+    public void modify(ProductDTO productDTO) {
+        ProductEntity product = productRepository.findById(productDTO.getPno()).orElseThrow();
+        product.clearList();
+
+        List<String> uploadFileNames = productDTO.getUploadFileNames();
+
+        if(uploadFileNames != null && uploadFileNames.size() > 0) {
+            uploadFileNames.forEach(product::addImageString);
+        }
+        productRepository.save(product);
+    }
 }
