@@ -1,12 +1,13 @@
 import { createBrowserRouter } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import todoRouter from "./todoRouter";
+import productRouter from "./productRouter";
 
 const Loading = <div>Loading....</div>;
 const Main = lazy(() => import("../pages/MainPage"));
 const About = lazy(() => import("../pages/AboutPage"));
 const TodoIndex = lazy(() => import("../pages/todo/Index"));
-const TodoList = lazy(() => import("../pages/todo/ListPage"));
+const ProductIndex = lazy(() => import("../pages/products/IndexPage"));
 
 // createBrowserRouter를 사용해 BrowserRouter를 생성
 
@@ -38,6 +39,15 @@ const root = createBrowserRouter([
             </Suspense>
         ),
         children: todoRouter(),
+    },
+    {
+        path: "products",
+        element: (
+            <Suspense fallback={Loading}>
+                <ProductIndex />
+            </Suspense>
+        ),
+        children: productRouter(),
     },
 ]);
 

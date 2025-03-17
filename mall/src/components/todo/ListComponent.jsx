@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import { getList } from "../../api/todoApi";
 import useCustomMove from "../../hooks/useCustomMove";
-import PageComponent from "../components/common/PageComponent";
+import PageComponent from "../common/PageComponent";
 
 const initState = {
     dtoList: [],
@@ -20,7 +20,7 @@ const initState = {
 };
 
 const ListComponent = () => {
-    const { page, size, moveToList } = useCustomMove();
+    const { page, size, refresh, moveToList, moveToRead } = useCustomMove();
 
     const [serverData, setServerData] = useState(initState);
 
@@ -29,7 +29,9 @@ const ListComponent = () => {
             console.log(data);
             setServerData(data);
         });
-    }, [page, size]);
+        // refresh는 동일한 페이지 번호를 클릭했을 때 true/false를 통해
+        // 다시 호출시켜줍니다.
+    }, [page, size, refresh]);
 
     return (
         <>
@@ -39,6 +41,7 @@ const ListComponent = () => {
                         <div
                             key={todo.tno}
                             className="w-full min-w-[400px] p-2 m-2 rounded shadow-md"
+                            onClick={() => moveToRead(todo.tno)}
                         >
                             <div className="flex">
                                 <div className="font-extrabold text-2xl p-2 w-1/12">

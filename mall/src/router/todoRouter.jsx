@@ -2,9 +2,9 @@ import { Suspense, lazy } from "react";
 import { Navigate } from "react-router-dom";
 
 const Loading = <div>Loading.....</div>;
-const TodoList = lazy(() => import("../pages/todo/ListPage"));
-const TodoRead = lazy(() => import("../pages/todo/ReadPage"));
-const TodoAdd = lazy(() => import("../pages/todo/AddPage"));
+const TodoList = lazy(() => import("../components/todo/ListPage"));
+const TodoRead = lazy(() => import("../components/todo/ReadPage"));
+const TodoAdd = lazy(() => import("../components/todo/AddPage"));
 const TodoModify = lazy(() => import("../pages/todo/ModifyPage"));
 
 const todoRouter = () => {
