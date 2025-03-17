@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { postAdd } from "../../api/todoApi";
 
 const initState = {
     pName: "",
@@ -28,6 +29,7 @@ const AddComponent = () => {
         formData.append("pDesc", product.pDesc);
         formData.append("price", product.price);
         console.log(formData);
+        postAdd(formData);
     };
 
     return (
