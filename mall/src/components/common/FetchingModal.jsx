@@ -1,3 +1,4 @@
+// Loading... 이런 메시지가 모달창을 통해 처리하기 위해 추가
 const FetchingModal = () => {
     return (
         <div

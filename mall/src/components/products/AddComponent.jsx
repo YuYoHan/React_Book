@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { postAdd } from "../../api/todoApi";
+import FetchingModal from "../common/FetchingModal";
 
 const initState = {
     pName: "",
@@ -11,6 +12,7 @@ const initState = {
 const AddComponent = () => {
     const [product, setProduct] = useState({ ...initState });
     const uploadRef = useRef();
+    const [fetching, setFetching] = useState(false);
 
     const handleChangeProduct = (e) => {
         product[e.target.name] = e.target.value;
@@ -29,11 +31,16 @@ const AddComponent = () => {
         formData.append("pDesc", product.pDesc);
         formData.append("price", product.price);
         console.log(formData);
-        postAdd(formData);
+        setFetching(true);
+        // 데이터를 가져온 후에는 false로 변경해서 화면에서 사라지도록 한다.
+        postAdd(formData).then((data) => {
+            setFetching(false);
+        });
     };
 
     return (
         <div className="border-2 border-sky-200 mt-10 m-2 p-4">
+            {fetching ? <FetchingModal /> : <></>}
             <div className="flex justify-center">
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
                     <div className="w-1/5 p-6 text-right font-bold">
