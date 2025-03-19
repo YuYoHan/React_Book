@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { getList } from "../../api/todoApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import PageComponent from "../common/PageComponent";
-import FetchingModal from "../common/FetchingModal";
 
 const initState = {
     dtoList: [],
@@ -24,13 +23,11 @@ const ListComponent = () => {
     const { page, size, refresh, moveToList, moveToRead } = useCustomMove();
 
     const [serverData, setServerData] = useState(initState);
-    const [fetching, setFetching] = useState(false);
 
     useEffect(() => {
         getList({ page, size }).then((data) => {
             console.log(data);
             setServerData(data);
-            setFetching(false);
         });
         // refresh는 동일한 페이지 번호를 클릭했을 때 true/false를 통해
         // 다시 호출시켜줍니다.
@@ -39,8 +36,6 @@ const ListComponent = () => {
     return (
         <>
             <div className="border-2 border-blue-100 mt-10 mr-2 ml-2">
-                <h1>Products List Component</h1>
-                {fetching ? <FetchingModal /> : <></>}
                 <div className="flex flex-wrap mx-auto justify-center p-6">
                     {serverData.dtoList.map((todo) => (
                         <div
