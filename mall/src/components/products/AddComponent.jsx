@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { postAdd } from "../../api/todoApi";
 import FetchingModal from "../common/FetchingModal";
 import ResultModal from "../common/ResultModal";
+import useCustomMove from "../../hooks/useCustomMove";
 
 const initState = {
     pName: "",
@@ -15,6 +16,7 @@ const AddComponent = () => {
     const uploadRef = useRef();
     const [fetching, setFetching] = useState(false);
     const [result, setResult] = useState(null);
+    const { moveToList } = useCustomMove(); // 이동을 위한 함수수
 
     const handleChangeProduct = (e) => {
         product[e.target.name] = e.target.value;
@@ -43,6 +45,8 @@ const AddComponent = () => {
 
     const closeModal = () => {
         setResult(null);
+        // 모달 창이 닫히면 이동
+        moveToList({ page: 1 });
     };
 
     return (
