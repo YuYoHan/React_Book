@@ -32,7 +32,13 @@ const ModifyComponent = ({ pno }) => {
         setProduct({ ...product });
     };
 
-    const deleteOldImages = (imageNames) => {};
+    const deleteOldImages = (imageName) => {
+        const resultFileNames = product.uploadFileNames.filter(
+            (fileName) => fileName !== imageName
+        );
+        product.uploadFileNames = resultFileNames;
+        setProduct({ ...product });
+    };
 
     return (
         <div className="border-2 border-sky-200 mt-10 m-2 p-4">
@@ -114,7 +120,10 @@ const ModifyComponent = ({ pno }) => {
                                 className="flex justify-center flex-col w-1/3 m-1 align-baseline"
                                 key={i}
                             >
-                                <button className="bg-blue-500 text-3xl text-white">
+                                <button
+                                    className="bg-blue-500 text-3xl text-white"
+                                    onClick={() => deleteOldImages(imgFile)}
+                                >
                                     DELETE
                                 </button>
                                 <img
