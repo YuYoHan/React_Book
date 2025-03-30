@@ -54,6 +54,10 @@ dependencies {
     implementation 'net.coobird:thumbnailator:0.4.19'
     // GSON
     implementation 'com.google.code.gson:gson:2.10.1'
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.5' // JSON 처리를 위한 jackson 모듈 추가
 }
 
 tasks.named('test') {

@@ -5,6 +5,7 @@ package com.example.backend_mall.config.security.handler;
 *   작업이 가능합니다. API 서버의 경우 로그인 후에는 JSON 문자열을 생성해서 전달하도록 구성
 * */
 
+import com.example.backend_mall.config.jwt.JWTUtil;
 import com.example.backend_mall.dto.MemberDTO;
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
@@ -27,8 +28,12 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
         log.debug("authentication {}", authentication);
         MemberDTO memberDTO = (MemberDTO) authentication.getPrincipal();
         Map<String, Object> claims = memberDTO.getClaims();
-        claims.put("accessToken", "");
-        claims.put("refreshToken", "");
+
+        String accessToken = JWTUtil.generateToken(claims, 10); // 10분
+        String refreshToken = JWTUtil.generateToken(claims, 60 * 24);// 24시간
+
+        claims.put("accessToken", accessToken);
+        claims.put("refreshToken", refreshToken);
         Gson gson = new Gson();
         String jsonStr = gson.toJson(claims);
         response.setContentType("application/json; charset=URF-8");
