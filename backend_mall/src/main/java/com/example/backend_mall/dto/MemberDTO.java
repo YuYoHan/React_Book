@@ -1,7 +1,6 @@
 package com.example.backend_mall.dto;
 
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
@@ -10,8 +9,6 @@ import java.util.stream.Collectors;
 
 @Getter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class MemberDTO extends User {
     private String email;
