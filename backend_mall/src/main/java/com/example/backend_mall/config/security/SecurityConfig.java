@@ -3,6 +3,7 @@ package com.example.backend_mall.config.security;
 import com.example.backend_mall.config.jwt.JWTCheckFilter;
 import com.example.backend_mall.config.security.handler.APILoginFailHandler;
 import com.example.backend_mall.config.security.handler.APILoginSuccessHandler;
+import com.example.backend_mall.config.security.handler.CustomAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,6 +52,9 @@ public class SecurityConfig {
 
         http
                 .addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http
+                .exceptionHandling(config -> config.accessDeniedHandler(new CustomAccessDeniedHandler()));
 
 
         return http.build();
