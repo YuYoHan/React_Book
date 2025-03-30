@@ -3,6 +3,7 @@ package com.example.backend_mall.config.security;
 import com.example.backend_mall.config.jwt.JWTCheckFilter;
 import com.example.backend_mall.config.security.handler.APILoginFailHandler;
 import com.example.backend_mall.config.security.handler.APILoginSuccessHandler;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +21,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

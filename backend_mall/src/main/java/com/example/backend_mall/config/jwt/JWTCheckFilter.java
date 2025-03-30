@@ -1,15 +1,19 @@
 package com.example.backend_mall.config.jwt;
 
+import com.example.backend_mall.dto.MemberDTO;
 import com.google.gson.Gson;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -45,6 +49,24 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         try {
             String accessToken = authorization.substring(7);
             Map<String, Object> claims = JWTUtil.validateToken(accessToken);
+
+            String email = (String) claims.get("email");
+            String pw = (String) claims.get("pw");
+            String nickName = (String) claims.get("nickName");
+            Boolean social = (Boolean) claims.get("social");
+            List<String> roleNames = (List<String>) claims.get("roleNames");
+
+            MemberDTO memberDTO = MemberDTO.builder()
+                    .email(email)
+                    .pw(pw)
+                    .nickName(nickName)
+                    .social(social)
+                    .roleNames(roleNames)
+                    .build();
+
+            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(memberDTO, pw, memberDTO.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(token);
+
             filterChain.doFilter(request, response);    // 통과
         } catch (Exception e) {
             Gson gson = new Gson();
