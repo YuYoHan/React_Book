@@ -1,5 +1,6 @@
 package com.example.backend_mall.config.security;
 
+import com.example.backend_mall.config.security.handler.APILoginSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,7 +38,10 @@ public class SecurityConfig {
 
         // 이렇게 설정을 하면 스프링 시큐리티는 POST 방식으로 username과 password라는 파라미터를 통해서 로그인을 처리
         http
-                .formLogin(config -> config.loginPage("/api/member/login"));
+                .formLogin(config -> {
+                    config.loginPage("/api/member/login");
+                    config.successHandler(new APILoginSuccessHandler());
+                });
 
 
         return http.build();
