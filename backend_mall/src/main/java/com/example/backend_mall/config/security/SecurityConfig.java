@@ -1,5 +1,6 @@
 package com.example.backend_mall.config.security;
 
+import com.example.backend_mall.config.security.handler.APILoginFailHandler;
 import com.example.backend_mall.config.security.handler.APILoginSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +42,7 @@ public class SecurityConfig {
                 .formLogin(config -> {
                     config.loginPage("/api/member/login");
                     config.successHandler(new APILoginSuccessHandler());
+                    config.failureHandler(new APILoginFailHandler());
                 });
 
 
