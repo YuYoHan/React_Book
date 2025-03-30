@@ -11,10 +11,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -36,6 +34,10 @@ public class SecurityConfig {
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/my/**").hasAnyRole("ADMIN","USER")
                         .anyRequest().authenticated());
+
+        // 이렇게 설정을 하면 스프링 시큐리티는 POST 방식으로 username과 password라는 파라미터를 통해서 로그인을 처리
+        http
+                .formLogin(config -> config.loginPage("/api/member/login"));
 
 
         return http.build();
