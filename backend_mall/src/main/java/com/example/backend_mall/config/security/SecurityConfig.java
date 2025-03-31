@@ -1,5 +1,10 @@
 package com.example.backend_mall.config.security;
 
+import com.example.backend_mall.config.jwt.JWTCheckFilter;
+import com.example.backend_mall.config.security.handler.APILoginFailHandler;
+import com.example.backend_mall.config.security.handler.APILoginSuccessHandler;
+import com.example.backend_mall.config.security.handler.CustomAccessDeniedHandler;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,16 +13,16 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -36,6 +41,20 @@ public class SecurityConfig {
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/my/**").hasAnyRole("ADMIN","USER")
                         .anyRequest().authenticated());
+
+        // 이렇게 설정을 하면 스프링 시큐리티는 POST 방식으로 username과 password라는 파라미터를 통해서 로그인을 처리
+        http
+                .formLogin(config -> {
+                    config.loginPage("/api/member/login");
+                    config.successHandler(new APILoginSuccessHandler());
+                    config.failureHandler(new APILoginFailHandler());
+                });
+
+        http
+                .addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http
+                .exceptionHandling(config -> config.accessDeniedHandler(new CustomAccessDeniedHandler()));
 
 
         return http.build();
