@@ -16,6 +16,10 @@ const loginSlice = createSlice({
     reducers: {
         login: (state, action) => {
             console.log("login....");
+            // {email, pw로 구성}
+            const data = action.payload;
+            // 새로운 상태
+            return { email: data.email };
         },
         logout: (state, action) => {
             console.log("logout....");
