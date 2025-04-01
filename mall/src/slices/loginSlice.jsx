@@ -1,8 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { loginPost } from "../api/memberAPI";
 
 const initState = {
     email: "",
 };
+
+export const loginPostAsync = createAsyncThunk("loginPostAsync", (param) => {
+    return loginPost(param);
+});
 
 /*
     컴포넌트들은 액션(action)이라는 것을 이용해서 리듀서를 호출하는데
@@ -25,6 +30,18 @@ const loginSlice = createSlice({
             console.log("logout....");
             return { ...initState };
         },
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(loginPostAsync.fulfilled, (state, action) => {
+                console.log("fulfilled");
+            })
+            .addCase(loginPostAsync.pending, (state, action) => {
+                console.log("pending");
+            })
+            .addCase(loginPostAsync.rejected, (state, action) => {
+                console.log("rejected");
+            });
     },
 });
 
