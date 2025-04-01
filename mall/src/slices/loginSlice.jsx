@@ -19,9 +19,12 @@ const loginSlice = createSlice({
     name: "LoginSlice",
     initialState: initState,
     reducers: {
+        // state : 기존 데이터
+        // action : 새로운 파라미터
         login: (state, action) => {
             console.log("login....");
             // {email, pw로 구성}
+            // payload : 실제 값
             const data = action.payload;
             // 새로운 상태
             return { email: data.email };
@@ -35,6 +38,8 @@ const loginSlice = createSlice({
         builder
             .addCase(loginPostAsync.fulfilled, (state, action) => {
                 console.log("fulfilled");
+                const payload = action.payload;
+                return payload;
             })
             .addCase(loginPostAsync.pending, (state, action) => {
                 console.log("pending");
