@@ -1,9 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { loginPost } from "../api/memberAPI";
-import { setCookie } from "../util/cookieUtil";
+import { getCookie, removeCookie, setCookie } from "../util/cookieUtil";
 
 const initState = {
     email: "",
+};
+
+const loadMemberCookie = () => {
+    const memberInfo = getCookie("member");
+    // 닉네임 처리
+    if (memberInfo && memberInfo.nickName) {
+        memberInfo.nickName = decodeURIComponent(memberInfo.nickName);
+    }
+    return memberInfo;
 };
 
 export const loginPostAsync = createAsyncThunk("loginPostAsync", (param) => {
@@ -18,7 +27,7 @@ export const loginPostAsync = createAsyncThunk("loginPostAsync", (param) => {
 */
 const loginSlice = createSlice({
     name: "LoginSlice",
-    initialState: initState,
+    initialState: loadMemberCookie() || initState, // 쿠키가 없다면 초깃값 사용
     reducers: {
         // state : 기존 데이터
         // action : 새로운 파라미터
@@ -32,6 +41,8 @@ const loginSlice = createSlice({
         },
         logout: (state, action) => {
             console.log("logout....");
+            // 로그아웃하면 쿠키 삭제
+            removeCookie("member");
             return { ...initState };
         },
     },
