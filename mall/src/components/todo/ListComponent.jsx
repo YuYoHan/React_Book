@@ -21,7 +21,6 @@ const initState = {
 
 const ListComponent = () => {
     const { page, size, refresh, moveToList, moveToRead } = useCustomMove();
-
     const [serverData, setServerData] = useState(initState);
 
     useEffect(() => {

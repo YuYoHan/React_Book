@@ -1,4 +1,4 @@
-import ListComponent from "./ListComponent";
+import ListComponent from "../../components/todo/ListComponent";
 
 const ListPage = () => {
     return (
