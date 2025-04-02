@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { loginPostAsync } from "../../slices/loginSlice";
-import { useNavigate } from "react-router-dom";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const initState = {
     email: "",
@@ -16,27 +14,16 @@ const LoginComponent = () => {
         setLoginParam({ ...loginParam });
     };
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const { doLogin, moveToPath } = useCustomLogin();
 
     const handleClickLogin = (e) => {
-        // dispatch(login(loginParam));
-        // 비동기 호출
-        // loginSlice 비동기 호출
-        dispatch(loginPostAsync(loginParam))
-            // 비동기를 동기처럼 결과를 처리하기
-            .unwrap()
-            .then((data) => {
-                console.log("after unwrap");
-                console.log(data);
-
-                if (data.error) {
-                    alert("이메일과 비밀번호를 확인해주세요");
-                } else {
-                    alert("로그인 성공");
-                    navigate({ pathname: "/" }, { replace: true });
-                }
-            });
+        doLogin(loginParam).then((data) => {
+            if (data.error) {
+                console.log("에러가 있습니다.");
+            } else {
+                moveToPath("/");
+            }
+        });
     };
 
     return (
