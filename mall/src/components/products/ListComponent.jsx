@@ -7,6 +7,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
 import { API_SERVER_HOST } from "../../api/todoApi";
 import PageComponent from "../common/PageComponent";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const host = API_SERVER_HOST;
 
@@ -28,15 +29,20 @@ const ListComponent = () => {
 
     const [serverData, setServerData] = useState(initState);
     const [fetching, setFetching] = useState(false);
+    const { exceptionHandle } = useCustomLogin();
 
     useEffect(() => {
-        getList({ page, size }).then((data) => {
-            console.log(data);
-            setServerData(data);
-            setFetching(false);
-        });
+        setFetching(true);
+        getList({ page, size })
+            .then((data) => {
+                console.log(data);
+                setServerData(data);
+                setFetching(false);
+            })
+            .catch((err) => exceptionHandle(err));
         // refresh는 동일한 페이지 번호를 클릭했을 때 true/false를 통해
         // 다시 호출시켜줍니다.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, size, refresh]);
 
     return (
