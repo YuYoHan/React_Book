@@ -35,9 +35,10 @@ const loginSlice = createSlice({
             console.log("login....");
             // {email, pw로 구성}
             // payload : 실제 값
-            const data = action.payload;
+            const payload = action.payload;
+            setCookie("member", JSON.stringify(payload), 1);
             // 새로운 상태
-            return { email: data.email };
+            return payload;
         },
         logout: (state, action) => {
             console.log("logout....");
