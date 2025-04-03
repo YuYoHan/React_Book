@@ -2,10 +2,13 @@ package com.example.backend_mall.controller.member;
 
 import com.example.backend_mall.config.jwt.JWTUtil;
 import com.example.backend_mall.dto.MemberDTO;
+import com.example.backend_mall.dto.MemberModifyDTO;
 import com.example.backend_mall.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -26,5 +29,11 @@ public class SocialController {
         claims.put("accessToken", jwtAccessToken);
         claims.put("refreshToken", jwtRefreshToken);
         return claims;
+    }
+
+    @PutMapping("/api/member/modify")
+    public Map<String, String> modify(@RequestBody MemberModifyDTO memberModifyDTO) {
+        memberService.modifyMember(memberModifyDTO);
+        return Map.of("result", "modified");
     }
 }

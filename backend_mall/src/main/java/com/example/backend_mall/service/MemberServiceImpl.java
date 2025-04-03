@@ -1,6 +1,7 @@
 package com.example.backend_mall.service;
 
 import com.example.backend_mall.dto.MemberDTO;
+import com.example.backend_mall.dto.MemberModifyDTO;
 import com.example.backend_mall.entity.MemberEntity;
 import com.example.backend_mall.entity.MemberRole;
 import com.example.backend_mall.repository.MemberRepository;
@@ -92,5 +93,14 @@ public class MemberServiceImpl implements MemberService{
 
         member.addRole(MemberRole.USER);
         return  member;
+    }
+
+    @Override
+    public void modifyMember(MemberModifyDTO memberModifyDTO) {
+        MemberEntity result = memberRepository.findByEmail(memberModifyDTO.getEmail());
+        result.changePw(passwordEncoder.encode(memberModifyDTO.getPw()));
+        result.changeSocial(false);
+        result.changeNickName(memberModifyDTO.getNickName());
+        memberRepository.save(result);
     }
 }

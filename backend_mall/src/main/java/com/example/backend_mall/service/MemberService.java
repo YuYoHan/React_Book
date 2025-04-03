@@ -1,6 +1,7 @@
 package com.example.backend_mall.service;
 
 import com.example.backend_mall.dto.MemberDTO;
+import com.example.backend_mall.dto.MemberModifyDTO;
 import com.example.backend_mall.entity.MemberEntity;
 
 import java.util.stream.Collectors;
@@ -17,4 +18,6 @@ public interface MemberService {
                         .map(memberRole -> memberRole.name()).collect(Collectors.toList())).build();
         return dto;
     }
+
+    void modifyMember(MemberModifyDTO memberModifyDTO);
 }
