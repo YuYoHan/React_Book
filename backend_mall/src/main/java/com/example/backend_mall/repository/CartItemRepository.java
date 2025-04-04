@@ -27,7 +27,7 @@ public interface CartItemRepository extends JpaRepository<CartItemEntity, Long> 
     @Query("select ci from " +
             "CartItemEntity ci inner join CartEntity  c on ci.cart = c " +
             "where c.owner.email = :email and ci.product.pno = :pno")
-    CartItemEntity getItemOfPno(@Param("email") String email);
+    CartItemEntity getItemOfPno(@Param("email") String email, @Param("pno") Long pno);
 
     // 장바구니 아이템이 속한 장바구니의 번호를 알아내는 기능
     // - 해당 아이템을 삭제한 후 해당 아이템이 속해 있는 장바구니의 모든 아이템을 알아내기 위해 필요
