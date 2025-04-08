@@ -30,9 +30,19 @@ const ListComponent = () => {
 
     const { moveToLoginReturn } = useCustomLogin();
 
+    /*
+        invalidateQueries()를 이용하는 방식의 단점은 짧은 시간동안 동일한 페이지를
+        클릭할 경우 매번 서버의 호출이 너무 많아지는게 단점이다.
+        이런 상황을 피하려면 refresh 값과 staleTime을 같이 사용하면 일정 시간 동안은
+        서버를 반복적으로 호출되는 문제를 피할 수 있습니다. 
+        staleTime을 이용해서 약간의 시간 동안 반복적으로 서버를 호출하는 것을 막고
+        refresh를 이용해서 동일한 페이지에 대한 쿼리 키 값을 변경하는 방식
+    */
     const { isFetching, data, error, isError } = useQuery(
-        ["products/list", { page, size }],
-        () => getList({ page, size })
+        ["products/list", { page, size, refresh }],
+        () => getList({ page, size }),
+        // staleTime 추가
+        { staleTime: 1000 * 5 }
     );
     if (isError) {
         console.log(error);
