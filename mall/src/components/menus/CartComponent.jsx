@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import useCustomCart from "../../hooks/useCustomCart";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import CartItemComponent from "../cart/CartItemComponent";
@@ -6,6 +6,14 @@ import CartItemComponent from "../cart/CartItemComponent";
 const CartComponent = () => {
     const { isLogin, loginState } = useCustomLogin();
     const { refreshCart, cartItems, changeCart } = useCustomCart();
+
+    const total = useMemo(() => {
+        let total = 0;
+        for (const item of cartItems) {
+            total += item.price * item.qty;
+        }
+        return total;
+    }, [cartItems]);
 
     useEffect(() => {
         if (isLogin) {
@@ -36,6 +44,11 @@ const CartComponent = () => {
                                 />
                             ))}
                         </ul>
+                    </div>
+                    <div>
+                        <div className="text-2xl text-right font-extrabold">
+                            TOTAL: {total}
+                        </div>
                     </div>
                 </div>
             ) : (
