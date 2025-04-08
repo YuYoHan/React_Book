@@ -1,8 +1,19 @@
 import { API_SERVER_HOST } from "../../api/todoApi";
 const host = API_SERVER_HOST;
 
-const CartItemComponent = ({ cino, pName, price, pno, qty, imageFile }) => {
-    const handleClickQty = (amount) => {};
+const CartItemComponent = ({
+    cino,
+    pName,
+    price,
+    pno,
+    qty,
+    imageFile,
+    changeCart,
+    email,
+}) => {
+    const handleClickQty = (amount) => {
+        changeCart({ email, cino, pno, qty: qty + amount });
+    };
 
     return (
         <li key={cino} className="border-2">

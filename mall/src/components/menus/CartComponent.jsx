@@ -5,7 +5,7 @@ import CartItemComponent from "../cart/CartItemComponent";
 
 const CartComponent = () => {
     const { isLogin, loginState } = useCustomLogin();
-    const { refreshCart, cartItems } = useCustomCart();
+    const { refreshCart, cartItems, changeCart } = useCustomCart();
 
     useEffect(() => {
         if (isLogin) {
@@ -28,7 +28,12 @@ const CartComponent = () => {
                     <div>
                         <ul>
                             {cartItems.map((item) => (
-                                <CartItemComponent {...item} key={item.cino} />
+                                <CartItemComponent
+                                    {...item}
+                                    key={item.cino}
+                                    changeCart={changeCart}
+                                    email={loginState.email}
+                                />
                             ))}
                         </ul>
                     </div>
