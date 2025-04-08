@@ -1,13 +1,14 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 // ListComponent는 useCustomMove()를 이용해서 현재 경로의 page와 size를 구성하고
 // API서버를 호출합니다. 서버의 데이터는 dtoList라는 배열 데이터와 pageNumList라는
 // 페이지 번호들이 존재하고, 이전(prev)/다음(next) 등의 추가적인 데이터가 있습니다.
-import { useEffect, useState } from "react";
 import { getList } from "../../api/todoApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import FetchingModal from "../common/FetchingModal";
 import { API_SERVER_HOST } from "../../api/todoApi";
 import PageComponent from "../common/PageComponent";
 import useCustomLogin from "../../hooks/useCustomLogin";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const host = API_SERVER_HOST;
 
@@ -27,28 +28,30 @@ const initState = {
 const ListComponent = () => {
     const { page, size, refresh, moveToList, moveToRead } = useCustomMove();
 
-    const [serverData, setServerData] = useState(initState);
-    const [fetching, setFetching] = useState(false);
-    const { exceptionHandle } = useCustomLogin();
+    const { moveToLoginReturn } = useCustomLogin();
 
-    useEffect(() => {
-        setFetching(true);
-        getList({ page, size })
-            .then((data) => {
-                console.log(data);
-                setServerData(data);
-                setFetching(false);
-            })
-            .catch((err) => exceptionHandle(err));
-        // refresh는 동일한 페이지 번호를 클릭했을 때 true/false를 통해
-        // 다시 호출시켜줍니다.
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page, size, refresh]);
+    const { isFetching, data, error, isError } = useQuery(
+        ["products/list", { page, size }],
+        () => getList({ page, size })
+    );
+    if (isError) {
+        console.log(error);
+        return moveToLoginReturn();
+    }
+    const serverData = data || initState;
+
+    const queryClient = useQueryClient(); // 리액트 쿼리 초기화를 위한 현재 객체체
+    const handleClickPage = (pageParam) => {
+        if (pageParam.page === parseInt(page)) {
+            queryClient.invalidateQueries("products/list");
+        }
+        moveToList(pageParam);
+    };
 
     return (
         <>
             <div className="border-2 border-blue-100 mt-10 mr-2 ml-2">
-                {fetching ? <FetchingModal /> : <></>}
+                {isFetching ? <FetchingModal /> : <></>}
                 <div className="flex flex-wrap mx-auto p-6">
                     {serverData.dtoList.map((product) => (
                         <div
@@ -83,7 +86,7 @@ const ListComponent = () => {
                 </div>
                 <PageComponent
                     serverData={serverData}
-                    movePage={moveToList}
+                    movePage={handleClickPage}
                 ></PageComponent>
             </div>
         </>
