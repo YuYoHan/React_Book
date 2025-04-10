@@ -3,11 +3,13 @@ import { useRecoilState, useResetRecoilState } from "recoil";
 import signinState from "../atoms/signinState";
 import { loginPost } from "../api/memberAPI";
 import { removeCookie, setCookie } from "../util/cookieUtil";
+import { cartState } from "../atoms/cartState";
 
 const useCustomLogin = () => {
     const navigate = useNavigate();
     const [loginState, setLoginState] = useRecoilState(signinState);
     const resetState = useResetRecoilState(signinState);
+    const resetCartState = useResetRecoilState(cartState); // 장바구니 비우기
 
     // 로그인 여부
     const isLogin = loginState.email ? true : false;
@@ -28,6 +30,7 @@ const useCustomLogin = () => {
     const doLogout = () => {
         removeCookie("member");
         resetState();
+        resetCartState();
     };
 
     // 페이지 이동

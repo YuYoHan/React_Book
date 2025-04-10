@@ -33,7 +33,7 @@ const ReadComponent = ({ pno }) => {
         ["products", pno],
         () => getOne(pno),
         {
-            staleTime: 1000 * 10,
+            staleTime: 1000 * 10 * 60,
             retry: 1,
         }
     );
