@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { getOne } from "../../api/produtsAPI";
 import { API_SERVER_HOST } from "../../api/todoApi";
 import useCustomMove from "../../hooks/useCustomMove";
@@ -6,7 +5,6 @@ import FetchingModal from "../common/FetchingModal";
 import useCustomCart from "../../hooks/useCustomCart";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useQuery } from "@tanstack/react-query";
-import { retry } from "@reduxjs/toolkit/query";
 
 const initState = {
     pno: 0,
