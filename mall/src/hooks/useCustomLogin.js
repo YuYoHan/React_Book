@@ -1,25 +1,36 @@
-import { useDispatch, useSelector } from "react-redux";
 import { createSearchParams, Navigate, useNavigate } from "react-router-dom";
-import { loginPostAsync, logout } from "../slices/loginSlice";
+import { useRecoilState, useResetRecoilState } from "recoil";
+import signinState from "../atoms/signinState";
+import { loginPost } from "../api/memberAPI";
+import { removeCookie, setCookie } from "../util/cookieUtil";
+import { cartState } from "../atoms/cartState";
 
 const useCustomLogin = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const [loginState, setLoginState] = useRecoilState(signinState);
+    const resetState = useResetRecoilState(signinState);
+    const resetCartState = useResetRecoilState(cartState); // 장바구니 비우기
 
-    // 이거를 항상 작성하면 귀찮으니 여기에다 따로 빼놓는다.
-    const loginState = useSelector((state) => state.loginState);
     // 로그인 여부
     const isLogin = loginState.email ? true : false;
 
+    const saveAsCookie = (data) => {
+        setCookie("member", JSON.stringify(data), 1); // 1일
+        setLoginState(data);
+    };
+
     // 로그인 함수
     const doLogin = async (loginParam) => {
-        const action = dispatch(loginPostAsync(loginParam));
-        return action.payload;
+        const result = await loginPost(loginParam);
+        saveAsCookie(result);
+        return result;
     };
 
     // 로그아웃 함수
     const doLogout = () => {
-        dispatch(logout());
+        removeCookie("member");
+        resetState();
+        resetCartState();
     };
 
     // 페이지 이동
@@ -59,6 +70,7 @@ const useCustomLogin = () => {
         isLogin,
         doLogin,
         doLogout,
+        saveAsCookie,
         moveToPath,
         moveToLogin,
         moveToLoginReturn,

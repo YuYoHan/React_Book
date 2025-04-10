@@ -3,6 +3,7 @@ import { postAdd } from "../../api/todoApi";
 import FetchingModal from "../common/FetchingModal";
 import ResultModal from "../common/ResultModal";
 import useCustomMove from "../../hooks/useCustomMove";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const initState = {
     pName: "",
@@ -14,14 +15,17 @@ const initState = {
 const AddComponent = () => {
     const [product, setProduct] = useState({ ...initState });
     const uploadRef = useRef();
-    const [fetching, setFetching] = useState(false);
-    const [result, setResult] = useState(null);
     const { moveToList } = useCustomMove(); // 이동을 위한 함수수
 
+    // 입력값 처리
     const handleChangeProduct = (e) => {
         product[e.target.name] = e.target.value;
         setProduct({ ...product });
     };
+
+    // 리액트 쿼리
+    // SQL로 따지면 insert, delete, update같이 사용
+    const addMutation = useMutation((product) => postAdd(product));
 
     const handleClickAdd = (e) => {
         const files = uploadRef.current.files;
@@ -35,27 +39,24 @@ const AddComponent = () => {
         formData.append("pDesc", product.pDesc);
         formData.append("price", product.price);
         console.log(formData);
-        setFetching(true);
-        // 데이터를 가져온 후에는 false로 변경해서 화면에서 사라지도록 한다.
-        postAdd(formData).then((data) => {
-            setFetching(false);
-            setResult(data.result);
-        });
+
+        addMutation.mutate(formData);
     };
 
+    const queryClient = useQueryClient();
+
     const closeModal = () => {
-        setResult(null);
-        // 모달 창이 닫히면 이동
+        queryClient.invalidateQueries("products/list");
         moveToList({ page: 1 });
     };
 
     return (
         <div className="border-2 border-sky-200 mt-10 m-2 p-4">
-            {fetching ? <FetchingModal /> : <></>}
-            {result ? (
+            {addMutation.isLoading ? <FetchingModal /> : <></>}
+            {addMutation.isSuccess ? (
                 <ResultModal
-                    title={"Product Add Result"}
-                    content={`${result}번 등록 완료`}
+                    title={"Add Result"}
+                    content={`Add Success ${addMutation.data.result}`}
                     callbackFn={closeModal}
                 />
             ) : (
